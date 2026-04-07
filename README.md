@@ -24,11 +24,8 @@ An [Obsidian](https://obsidian.md) plugin that runs AI CLI tools — Claude Code
 
 ### Manual installation
 
-1. Go to the [Releases](https://github.com/KentaMaeda0916/obsidian-ai-cli-runner/releases) page and download these 3 files from the latest release:
-   - `main.js`
-   - `manifest.json`
-   - `styles.css`
-2. Create a folder `<vault>/.obsidian/plugins/obsidian-ai-cli-runner/` and place the 3 files inside
+1. Go to the [Releases](https://github.com/KentaMaeda0916/obsidian-ai-cli-runner/releases) page and download `obsidian-ai-cli-runner.zip`
+2. Extract the zip and move the `obsidian-ai-cli-runner` folder into `<vault>/.obsidian/plugins/`
 3. Reload Obsidian and enable the plugin in **Settings → Community plugins**
 
 ## Usage
