@@ -205,11 +205,9 @@ export class AICLIView extends ItemView {
         this.plugin.manifest.id,
       );
       const ptyPath = path.join(pluginDir, "node_modules", `node-pty-${process.arch}`);
-      const pty = require(ptyPath);
-
-      // Spawn via login shell so PATH from .zshrc/.zprofile is available
       const shell = process.env.SHELL || "/bin/zsh";
       const cmdLine = [tool.command, ...tool.args].join(" ");
+      const pty = require(ptyPath);
 
       this.ptyProcess = pty.spawn(shell, ["-i", "-l", "-c", cmdLine], {
         name: "xterm-256color",
