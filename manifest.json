@@ -1,0 +1,10 @@
+{
+  "id": "obsidian-ai-cli-runner",
+  "name": "AI CLI Runner",
+  "version": "0.1.0",
+  "minAppVersion": "1.5.0",
+  "description": "Run AI CLI tools (Claude Code, aider, etc.) in a terminal panel inside Obsidian",
+  "author": "maedakenta",
+  "authorUrl": "https://github.com/maedakenta",
+  "isDesktopOnly": true
+}
