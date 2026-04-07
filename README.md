@@ -30,7 +30,7 @@ An [Obsidian](https://obsidian.md) plugin that runs AI CLI tools — Claude Code
 
 ### Manual installation
 
-1. Download the latest release from the [Releases](https://github.com/maedakenta/obsidian-ai-cli-runner/releases) page
+1. Download the latest release from the [Releases](https://github.com/KentaMaeda0916/obsidian-ai-cli-runner/releases) page
 2. Extract into `<vault>/.obsidian/plugins/obsidian-ai-cli-runner/`
 3. Reload Obsidian and enable the plugin in **Settings → Community plugins**
 
