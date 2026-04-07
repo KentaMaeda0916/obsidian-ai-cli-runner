@@ -1,0 +1,26 @@
+{
+  "name": "obsidian-ai-cli-runner",
+  "version": "0.0.1",
+  "description": "Run AI CLI tools (Claude Code, aider, etc.) inside Obsidian",
+  "main": "dist/main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs --watch",
+    "build": "node esbuild.config.mjs",
+    "rebuild-pty-arm64": "electron-rebuild -f -w node-pty --arch arm64 && cp -r node_modules/node-pty node_modules/node-pty-arm64",
+    "rebuild-pty-x64": "electron-rebuild -f -w node-pty --arch x64 && cp -r node_modules/node-pty node_modules/node-pty-x64"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "esbuild": "^0.25.0",
+    "electron-rebuild": "^3.2.9",
+    "obsidian": "latest",
+    "typescript": "^5.4.0"
+  },
+  "dependencies": {
+    "node-pty": "^1.0.0",
+    "xterm": "^5.3.0",
+    "xterm-addon-fit": "^0.8.0"
+  }
+}
