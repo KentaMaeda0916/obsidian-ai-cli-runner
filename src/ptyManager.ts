@@ -7,13 +7,36 @@ const PTY_PKG = "node-pty-prebuilt-multiarch";
 const BINARY_RELEASE_TAG = "binaries-v1";
 const REPO = "KentaMaeda0916/obsidian-ai-cli-runner";
 
+// Injected by esbuild at build time (see esbuild.config.mjs)
+declare const __PTY_JS_FILES__: string;
+
 export type StatusFn = (msg: string) => void;
 
-function getBuildDir(pluginDir: string): string {
-  return path.join(pluginDir, "node_modules", PTY_PKG, "build", "Release");
+function getPtyDir(pluginDir: string): string {
+  return path.join(pluginDir, "node_modules", PTY_PKG);
 }
 
-function isReady(pluginDir: string): boolean {
+function getBuildDir(pluginDir: string): string {
+  return path.join(getPtyDir(pluginDir), "build", "Release");
+}
+
+// ── JS files (embedded in main.js at build time) ─────────────────────────────
+
+function ensurePtyJs(pluginDir: string): void {
+  const ptyDir = getPtyDir(pluginDir);
+  if (fs.existsSync(path.join(ptyDir, "package.json"))) return;
+
+  const files: Record<string, string> = JSON.parse(__PTY_JS_FILES__);
+  for (const [relPath, content] of Object.entries(files)) {
+    const fullPath = path.join(ptyDir, relPath);
+    fs.mkdirSync(path.dirname(fullPath), { recursive: true });
+    fs.writeFileSync(fullPath, content, "utf8");
+  }
+}
+
+// ── Native binary (downloaded from GitHub Releases on first launch) ───────────
+
+function isBinaryReady(pluginDir: string): boolean {
   const buildDir = getBuildDir(pluginDir);
   if (!fs.existsSync(path.join(buildDir, "pty.node"))) return false;
   if (process.platform !== "win32") {
@@ -53,8 +76,14 @@ function assetUrl(filename: string): string {
   return `https://github.com/${REPO}/releases/download/${BINARY_RELEASE_TAG}/${filename}`;
 }
 
+// ── Public API ────────────────────────────────────────────────────────────────
+
 export async function ensurePty(pluginDir: string, onStatus: StatusFn): Promise<void> {
-  if (isReady(pluginDir)) return;
+  // 1. Write JS files from embedded bundle (instant, no network)
+  ensurePtyJs(pluginDir);
+
+  // 2. Download native binary if not already present
+  if (isBinaryReady(pluginDir)) return;
 
   const { platform, arch } = process;
   const buildDir = getBuildDir(pluginDir);
@@ -87,6 +116,6 @@ export async function ensurePty(pluginDir: string, onStatus: StatusFn): Promise<
 }
 
 export function loadPty(pluginDir: string): any {
-  const ptyDir = path.join(pluginDir, "node_modules", PTY_PKG);
+  const ptyDir = getPtyDir(pluginDir);
   return require(ptyDir);
 }

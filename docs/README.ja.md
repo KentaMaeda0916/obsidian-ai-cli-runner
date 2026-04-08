@@ -28,6 +28,16 @@
 
 ## インストール
 
+### BRAT を使う方法（推奨）
+
+[BRAT](https://github.com/TfTHacker/obsidian42-brat) を使うと、コミュニティストア外のプラグインを簡単にインストール・自動更新できます。
+
+1. Obsidian コミュニティストアから **BRAT** プラグインをインストール
+2. BRAT 設定 → **Add Beta plugin** を選択
+3. `KentaMaeda0916/obsidian-ai-cli-runner` を入力
+4. **設定 → コミュニティプラグイン** でプラグインを有効化
+5. ▶ をクリックしてツールを起動 — 初回起動時に必要なネイティブバイナリが自動ダウンロードされます
+
 ### 手動インストール
 
 1. [Releases](https://github.com/KentaMaeda0916/obsidian-ai-cli-runner/releases) ページから `obsidian-ai-cli-runner.zip` をダウンロード

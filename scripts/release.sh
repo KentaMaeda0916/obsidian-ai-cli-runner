@@ -39,7 +39,6 @@ echo "→ Creating zip..."
 rm -rf "${ZIP_DIR}" "${ZIP_FILE}"
 mkdir "${ZIP_DIR}"
 cp dist/main.js dist/manifest.json dist/styles.css "${ZIP_DIR}/"
-cp -r dist/node_modules "${ZIP_DIR}/"
 (cd /tmp && zip -qr "${PLUGIN_ID}.zip" "${PLUGIN_ID}/")
 SIZE=$(du -sh "${ZIP_FILE}" | cut -f1)
 echo "  → ${ZIP_FILE} (${SIZE})"
@@ -50,14 +49,23 @@ git tag "${TAG}"
 git push origin "${TAG}"
 
 # ── github release ────────────────────────────────────────────────────────────
+# Upload zip (for manual install) + individual files (for BRAT)
 echo "→ Creating GitHub release..."
 if [[ -n "${NOTES}" ]]; then
-  URL=$(gh release create "${TAG}" "${ZIP_FILE}" \
+  URL=$(gh release create "${TAG}" \
+    "${ZIP_FILE}" \
+    dist/main.js \
+    dist/manifest.json \
+    dist/styles.css \
     --repo "${REPO}" \
     --title "${TAG}" \
     --notes "${NOTES}")
 else
-  URL=$(gh release create "${TAG}" "${ZIP_FILE}" \
+  URL=$(gh release create "${TAG}" \
+    "${ZIP_FILE}" \
+    dist/main.js \
+    dist/manifest.json \
+    dist/styles.css \
     --repo "${REPO}" \
     --title "${TAG}" \
     --generate-notes)
