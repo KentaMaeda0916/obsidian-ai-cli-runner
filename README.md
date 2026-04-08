@@ -28,6 +28,16 @@ An [Obsidian](https://obsidian.md) plugin that runs AI CLI tools — Claude Code
 
 ## Installation
 
+### Using BRAT (recommended)
+
+[BRAT](https://github.com/TfTHacker/obsidian42-brat) lets you install and auto-update plugins that aren't in the community store.
+
+1. Install the **BRAT** plugin from the Obsidian community store
+2. Open BRAT settings → **Add Beta plugin**
+3. Enter: `KentaMaeda0916/obsidian-ai-cli-runner`
+4. Enable the plugin in **Settings → Community plugins**
+5. Click ▶ to launch a tool — the required native binary is downloaded automatically on first use
+
 ### Manual installation
 
 1. Go to the [Releases](https://github.com/KentaMaeda0916/obsidian-ai-cli-runner/releases) page and download `obsidian-ai-cli-runner.zip`
