@@ -8,6 +8,8 @@
 
 ---
 
+![Demo](demo.gif)
+
 ## 機能
 
 - 組み込みターミナルパネル（xterm.js + node-pty）— 外部ターミナル不要

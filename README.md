@@ -8,6 +8,8 @@ An [Obsidian](https://obsidian.md) plugin that runs AI CLI tools — Claude Code
 
 ---
 
+![Demo](docs/demo.gif)
+
 ## Features
 
 - Embedded terminal panel (xterm.js + node-pty) — no external terminal needed
