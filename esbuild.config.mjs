@@ -1,5 +1,5 @@
 import esbuild from "esbuild";
-import { copyFileSync, cpSync, mkdirSync, existsSync } from "fs";
+import { copyFileSync, cpSync, mkdirSync } from "fs";
 
 const isWatch = process.argv.includes("--watch");
 
@@ -8,7 +8,7 @@ const buildOptions = {
   bundle: true,
   platform: "node",
   target: "es2020",
-  external: ["obsidian", "electron", "node-pty"],
+  external: ["obsidian", "electron"],
   outfile: "dist/main.js",
   format: "cjs",
   sourcemap: isWatch ? "inline" : false,
@@ -22,18 +22,16 @@ if (isWatch) {
 } else {
   await esbuild.build(buildOptions);
 
-  // Copy manifest.json and styles.css to dist
   mkdirSync("dist", { recursive: true });
   copyFileSync("manifest.json", "dist/manifest.json");
   copyFileSync("styles.css", "dist/styles.css");
 
-  // Copy arch-specific node-pty builds to dist
-  for (const arch of ["arm64", "x64"]) {
-    const ptySource = `node_modules/node-pty-${arch}`;
-    const ptyDest = `dist/node_modules/node-pty-${arch}`;
-    if (existsSync(ptySource)) {
-      cpSync(ptySource, ptyDest, { recursive: true });
-      console.log(`Copied node-pty-${arch} to dist/node_modules/`);
-    }
-  }
+  // Copy homebridge node-pty JS files (binary downloaded at first run)
+  const ptyJsSrc = "node_modules/@homebridge/node-pty-prebuilt-multiarch";
+  const ptyJsDest = "dist/node_modules/node-pty-prebuilt-multiarch";
+  cpSync(ptyJsSrc, ptyJsDest, {
+    recursive: true,
+    filter: (src) => !src.includes("/build/") && !src.includes("/prebuilds/"),
+  });
+  console.log("Copied node-pty-prebuilt-multiarch JS to dist/node_modules/");
 }

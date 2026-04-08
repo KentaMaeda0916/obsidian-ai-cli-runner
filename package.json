@@ -12,9 +12,10 @@
   "keywords": [],
   "license": "MIT",
   "devDependencies": {
+    "@homebridge/node-pty-prebuilt-multiarch": "^0.13.1",
     "@types/node": "^20.0.0",
-    "esbuild": "^0.25.0",
     "electron-rebuild": "^3.2.9",
+    "esbuild": "^0.25.0",
     "obsidian": "latest",
     "typescript": "^5.4.0"
   },

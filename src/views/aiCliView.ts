@@ -3,6 +3,7 @@ import { ItemView, WorkspaceLeaf, setIcon } from "obsidian";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 import type { IPty } from "node-pty";
+import { ensurePty, loadPty } from "../ptyManager";
 import type AICLIPlugin from "../main";
 import type { AIToolConfig } from "../types";
 
@@ -179,7 +180,7 @@ export class AICLIView extends ItemView {
 
   // --- Process management ---
 
-  launchTool(tool: AIToolConfig) {
+  async launchTool(tool: AIToolConfig) {
     if (this.ptyProcess) {
       const ok = window.confirm(
         `"${this.displayName}" is still running. Kill it and start "${tool.name}"?`
@@ -197,19 +198,25 @@ export class AICLIView extends ItemView {
     this.term.writeln(`\r\n--- Starting ${tool.name} ---`);
     this.term.writeln(`$ ${tool.command} ${tool.args.join(" ")}\r\n`);
 
-    try {
-      const pluginDir = path.join(
-        this.getVaultBasePath(),
-        ".obsidian",
-        "plugins",
-        this.plugin.manifest.id,
-      );
-      const ptyPath = path.join(pluginDir, "node_modules", `node-pty-${process.arch}`);
-      const shell = process.env.SHELL || "/bin/zsh";
-      const cmdLine = [tool.command, ...tool.args].join(" ");
-      const pty = require(ptyPath);
+    const pluginDir = path.join(
+      this.getVaultBasePath(),
+      ".obsidian",
+      "plugins",
+      this.plugin.manifest.id,
+    );
 
-      this.ptyProcess = pty.spawn(shell, ["-i", "-l", "-c", cmdLine], {
+    try {
+      await ensurePty(pluginDir, (msg) => this.term.writeln(msg));
+
+      const shell = process.env.SHELL || (process.platform === "win32" ? "powershell.exe" : "/bin/zsh");
+      const cmdLine = [tool.command, ...tool.args].join(" ");
+      const args = process.platform === "win32"
+        ? ["-Command", cmdLine]
+        : ["-i", "-l", "-c", cmdLine];
+
+      const pty = loadPty(pluginDir);
+
+      this.ptyProcess = pty.spawn(shell, args, {
         name: "xterm-256color",
         cols: this.term.cols,
         rows: this.term.rows,
@@ -231,9 +238,6 @@ export class AICLIView extends ItemView {
     } catch (err) {
       this.term.writeln(`\r\nError: Failed to start ${tool.command}`);
       this.term.writeln(`${err}`);
-      this.term.writeln(
-        "Make sure the command is installed and node-pty is properly built."
-      );
     }
   }
 

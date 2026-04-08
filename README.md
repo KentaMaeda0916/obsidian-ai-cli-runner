@@ -26,11 +26,8 @@ An [Obsidian](https://obsidian.md) plugin that runs AI CLI tools — Claude Code
 
 1. Go to the [Releases](https://github.com/KentaMaeda0916/obsidian-ai-cli-runner/releases) page and download `obsidian-ai-cli-runner.zip`
 2. Extract the zip and move the `obsidian-ai-cli-runner` folder into `<vault>/.obsidian/plugins/`
-3. Run the following command in Terminal to allow the bundled binary to execute (required on macOS for files downloaded from the internet):
-   ```bash
-   xattr -rd com.apple.quarantine "<vault>/.obsidian/plugins/obsidian-ai-cli-runner"
-   ```
-4. Reload Obsidian and enable the plugin in **Settings → Community plugins**
+3. Reload Obsidian and enable the plugin in **Settings → Community plugins**
+4. Click ▶ to launch a tool — the required native binary is downloaded automatically on first use
 
 ## Usage
 
@@ -64,6 +61,10 @@ Go to **Settings → AI CLI Runner** to:
 The plugin embeds a PTY (pseudo-terminal) via `node-pty` and renders it with `xterm.js`. Each tool is spawned through your login shell (`$SHELL -i -l -c <command>`) so your shell configuration (PATH, aliases, etc.) is fully available.
 
 ## Troubleshooting
+
+**"Failed to download pty binary" on first launch**
+- Check your internet connection
+- The plugin downloads a small native binary from GitHub on first launch — this only happens once
 
 **"Failed to start \<command\>"**
 - Make sure the command is installed: run `which <command>` in Terminal
