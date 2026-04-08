@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "node esbuild.config.mjs --watch",
     "build": "node esbuild.config.mjs",
-    "rebuild-pty-arm64": "electron-rebuild -f -w node-pty --arch arm64 && cp -r node_modules/node-pty node_modules/node-pty-arm64",
-    "rebuild-pty-x64": "electron-rebuild -f -w node-pty --arch x64 && cp -r node_modules/node-pty node_modules/node-pty-x64"
+    "release": "bash scripts/release.sh"
   },
   "keywords": [],
   "license": "MIT",

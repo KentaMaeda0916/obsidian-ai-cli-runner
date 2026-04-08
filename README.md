@@ -4,13 +4,17 @@ An [Obsidian](https://obsidian.md) plugin that runs AI CLI tools — Claude Code
 
 > **Platform:** macOS only (Apple Silicon & Intel). Windows/Linux support is planned.
 
+**[日本語](docs/README.ja.md) · [中文](docs/README.zh.md) · [Español](docs/README.es.md) · [Français](docs/README.fr.md)**
+
+---
+
 ## Features
 
 - Embedded terminal panel (xterm.js + node-pty) — no external terminal needed
 - Launch Claude Code, aider, GitHub Copilot CLI, or any custom CLI tool
 - Tool selector + launch/stop buttons in a compact toolbar
 - Split terminal: open multiple panels side by side
-- Drag & drop files from Obsidian into the terminal to insert their path
+- Drag & drop files from Obsidian's file explorer into the terminal to insert their path
 - Working directory automatically set to the folder of the active note
 - Kitty keyboard protocol support (required for Claude Code's TUI)
 - Fully configurable: add, edit, or remove tools in Settings
@@ -29,11 +33,13 @@ An [Obsidian](https://obsidian.md) plugin that runs AI CLI tools — Claude Code
 3. Reload Obsidian and enable the plugin in **Settings → Community plugins**
 4. Click ▶ to launch a tool — the required native binary is downloaded automatically on first use
 
+> No code-signing steps or quarantine removal required.
+
 ## Usage
 
 | Action | How |
 |--------|-----|
-| Open terminal panel | Command palette → **Open AI CLI panel** |
+| Open terminal panel | Click the ✨ icon in the left sidebar, or Command palette → **Open AI CLI panel** |
 | Launch a tool | Select from the dropdown → click ▶ |
 | Stop a running tool | Click ■ |
 | Split terminal | Click the split-columns icon |
@@ -60,6 +66,8 @@ Go to **Settings → AI CLI Runner** to:
 
 The plugin embeds a PTY (pseudo-terminal) via `node-pty` and renders it with `xterm.js`. Each tool is spawned through your login shell (`$SHELL -i -l -c <command>`) so your shell configuration (PATH, aliases, etc.) is fully available.
 
+On first launch, a small native binary (`pty.node`) is downloaded from the plugin's GitHub Releases. This avoids macOS Gatekeeper issues that come with bundled pre-signed binaries, and the download happens only once.
+
 ## Troubleshooting
 
 **"Failed to download pty binary" on first launch**
@@ -71,7 +79,7 @@ The plugin embeds a PTY (pseudo-terminal) via `node-pty` and renders it with `xt
 - Ensure it is in your PATH by checking `.zshrc` or `.zprofile`
 
 **Shift+Enter not working**
-- The plugin sends the kitty keyboard protocol escape sequence for Shift+Enter. Make sure you are running a supported version of the CLI tool.
+- The plugin sends the Kitty keyboard protocol escape sequence for Shift+Enter. Make sure you are running a supported version of the CLI tool.
 
 ## License
 
